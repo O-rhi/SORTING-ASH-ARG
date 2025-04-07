@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SORTING ASH</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: url('./office2.jpg') no-repeat center center/cover;
+      transition: background 1s ease-in-out;
+    }
+
+    /* Fade-in overlay */
+    .fade-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 100;
+      animation: fadeOutOverlay 1.5s ease forwards;
+    }
+
+    @keyframes fadeOutOverlay {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    .trigger {
+      position: absolute;
+      background: rgba(255, 255, 255, 0);
+      border: 2px solid rgba(255, 255, 255, 0);
+      cursor: pointer;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .trigger-1 { width: 360px; height: 430px; top: 2%; left: 28%; }
+    .trigger-2 { width: 400px; height: 400px; top: 46%; left: 65%; }
+    .trigger-3 { width: 380px; height: 150px; top: 13%; left: 75%; }
+
+    .sub-trigger {
+      position: absolute;
+      background: rgba(0, 0, 0, 0);
+      border: 2px solid rgba(255, 255, 255, 0);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      font-weight: bold;
+      z-index: 13;
+    }
+
+    /* Special clickable image at bottom-left */
+    .special-image {
+      position: fixed;
+      bottom: 25px;
+      right: 15px;
+      width: 130px;
+      height: 145px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      cursor: pointer;
+      pointer-events: none;
+    }
+
+    /* Initially hide the image */
+    .special-image.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Show when main triggers are not clicked */
+    .special-image.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Fade-in overlay -->
+<div class="fade-overlay"></div>
+
+<!-- Main Scene Triggers -->
+<div class="trigger trigger-1" id="bookshelfTrigger"></div>
+<div class="trigger trigger-2" id="deskTrigger"></div>
+<div class="trigger trigger-3" id="shelfTrigger"></div>
+
+<!-- Back Button -->
+<div class="back-button" id="backButton" onclick="goBack()">Back</div>
+
+<!-- Special clickable image (visible only when no main trigger is clicked) -->
+<img src="./PHONE UI/1.png" alt="Secret Hint" id="specialImage" class="special-image" onclick="window.location.href='phone.html'" />
+
+<script>
+  const background = document.body;
+  const triggers = document.querySelectorAll(".trigger");
+  const backButton = document.getElementById("backButton");
+  const specialImage = document.getElementById("specialImage");
+  let sceneState = "triggers";
+
+  function enterScene(scene, bgImage, subTriggersHTML) {
+    background.style.background = `url('${bgImage}') no-repeat center center/cover`;
+    backButton.style.display = "block";
+    sceneState = scene;
+
+    triggers.forEach(trigger => {
+      trigger.style.opacity = "0";
+      trigger.style.pointerEvents = "none";
+    });
+
+    document.querySelectorAll(".sub-trigger").forEach(el => el.remove());
+    document.body.insertAdjacentHTML("beforeend", subTriggersHTML);
+    setTimeout(() => {
+      document.querySelectorAll(".sub-trigger").forEach(sub => sub.style.opacity = "1");
+    }, 500);
+
+    // Hide the special image and disable clicking when any main trigger is clicked
+    specialImage.classList.add("hidden");
+  }
+
+  // Bookshelf trigger
+  document.getElementById("bookshelfTrigger").onclick = () => {
+    enterScene("bookshelf", "bookshelf.jpg", `
+      <div class="sub-trigger" style="width:120px;height:530px;top:5%;left:5%;transform: rotate(-7deg);" onclick="window.location.href='autoplagiarist.html'"></div>
+      <div class="sub-trigger" style="width:75px;height:530px;top:5%;left:26%;transform: rotate(-6deg);" onclick="window.location.href='crucifictions.html'"></div>
+      <div class="sub-trigger" style="width:82px;height:530px;top:5%;left:43%;transform: rotate(-2deg);" onclick="window.location.href='file:///C:/Users/Rhiana/Documents/ilustrado/stamped%20envelope.html'"></div>
+    `);
+  };
+
+  // Desk trigger
+  document.getElementById("deskTrigger").onclick = () => {
+    enterScene("desk", "desk.jpg", `
+      <div class="sub-trigger" style="width:600px;height:150px;top:0;left:40%;" onclick="window.location.href='journal.html'"></div>
+      <div class="sub-trigger" style="width:430px;height:200px;top:62%;left:31%;transform: rotate(15deg);" onclick="window.location.href='safe.html'"></div>
+    `);
+  };
+
+  // Shelf trigger
+  document.getElementById("shelfTrigger").onclick = () => {
+    enterScene("shelf", "shelf.jpg", `
+      <div class="sub-trigger" style=" width: 450px;height: 250px;top:58%;left:17%;transform: rotate(5deg);" onclick="window.location.href='locked wooden box.html'"></div>
+    `);
+  };
+
+  function goBack() {
+    background.style.background = "url('./office2.jpg') no-repeat center center/cover";
+    backButton.style.display = "none";
+    sceneState = "triggers";
+
+    document.querySelectorAll(".sub-trigger").forEach(el => el.remove());
+
+    setTimeout(() => {
+      triggers.forEach(trigger => {
+        trigger.style.opacity = "1";
+        trigger.style.pointerEvents = "auto";
+      });
+    }, 500);
+
+    // Show the special image again after going back if no main trigger was clicked
+    if (sceneState === "triggers") {
+      specialImage.classList.remove("hidden");
+    }
+  }
+
+  // Show special image if no main trigger has been clicked
+  window.onload = () => {
+    if (sceneState === "triggers") {
+      specialImage.classList.remove("hidden");
+      specialImage.classList.add("visible");
+    }
+  };
+</script>
+
+</body>
+</html>
