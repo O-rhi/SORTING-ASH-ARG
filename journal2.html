@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SORTING ASH</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: #2e3537;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .book-container {
+            position: relative;
+            width: 400px;
+            height: 550px;
+            perspective: 2000px;
+        }
+
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .cover, .back-cover, .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out;
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* Cover Page */
+        .cover {
+            background-image: url('./JOURNAL/1.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 20;
+        }
+
+        /* Back Cover */
+        .back-cover {
+            background-color: #573428; /* You can change this color */
+            z-index: 1;
+        }
+
+        /* Page Styling */
+        .page {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 19;
+        }
+
+        .page .front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            backface-visibility: hidden;
+        }
+
+        .page .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+
+        .click-area {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            cursor: pointer;
+            z-index: 50; /* Ensures it sits on top */
+        }
+
+        .click-area.left {
+            left: 0;
+            background: rgba(0, 0, 255, 0); /* Transparent */
+        }
+
+        .click-area.right {
+            right: 0;
+            background: rgba(255, 0, 0, 0); /* Transparent */
+        }
+
+        /* Clear Textbox */
+        .textbox-container {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        textarea {
+            width: 80%;
+            height: 50px;
+            background: transparent;
+            border: none; /* Removes the border */
+            color: white;
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+            outline: none; /* Removes the outline */
+        }
+
+        textarea::placeholder {
+            color: #b0b0b0;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 11%;
+            left: 64%;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: #573428;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+        <div class="book" id="book">
+            <!-- Cover -->
+            <div class="cover" id="cover">
+                <div class="click-area right"></div>
+            </div>
+
+            <!-- Pages (7 pages with a white back) -->
+            <div class="page" id="page1" style="z-index: 18;">
+                <div class="front" style="background-image: url('./JOURNAL/2.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <div class="page" id="page2" style="z-index: 17;">
+                <div class="front" style="background-image: url('./JOURNAL/3.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <div class="page" id="page3" style="z-index: 16;">
+                <div class="front" style="background-image: url('./JOURNAL/4.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <div class="page" id="page4" style="z-index: 15;">
+                <div class="front" style="background-image: url('./JOURNAL/5.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <div class="page" id="page5" style="z-index: 14;">
+                <div class="front" style="background-image: url('./JOURNAL/6.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <div class="page" id="page6" style="z-index: 13;">
+                <div class="front" style="background-image: url('./JOURNAL/7.png');"></div>
+                <div class="back"></div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
+            </div>
+
+            <!-- Back Cover -->
+            <div class="back-cover"></div>
+        </div>
+    </div>
+        <!-- Textbox -->
+        <div class="textbox-container">
+            <textarea placeholder="Click on the right side of the page to go to the next page, click the left side to go back."></textarea>
+        </div>
+
+            <!-- Back Button -->
+        <a href="file:///C:/Users/Rhiana/Documents/ilustrado/ilustrado_website.html" class="back-button">X</a>
+
+    <script>
+        let currentPage = -1;
+        const pages = document.querySelectorAll('.page');
+        const cover = document.getElementById('cover');
+
+        function flipForward(event) {
+            event.stopPropagation(); // Prevents unintended double-clicks
+
+            if (currentPage === -1) {
+                cover.style.transform = "rotateY(-180deg)";
+                cover.style.zIndex = "10";
+                currentPage = 0;
+            } else if (currentPage < pages.length) {
+                pages[currentPage].style.transform = "rotateY(-180deg)";
+                pages[currentPage].style.zIndex = 11 - currentPage;
+                currentPage++;
+            }
+        }
+
+        function flipBackward(event) {
+            event.stopPropagation(); // Prevents unintended double-clicks
+
+            if (currentPage > 0) {
+                currentPage--;
+                pages[currentPage].style.transform = "rotateY(0deg)";
+                pages[currentPage].style.zIndex = 18 - currentPage;
+            } else if (currentPage === 0) {
+                cover.style.transform = "rotateY(0deg)";
+                cover.style.zIndex = "20";
+                currentPage = -1;
+            }
+        }
+
+        // Add event listeners
+        cover.querySelector(".click-area.right").addEventListener("click", flipForward);
+
+        pages.forEach((page, index) => {
+            let rightClick = page.querySelector(".click-area.right");
+            let leftClick = page.querySelector(".click-area.left");
+
+            if (rightClick) rightClick.addEventListener("click", flipForward);
+            if (leftClick) leftClick.addEventListener("click", flipBackward);
+        });
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!-- intro.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SORTING ASH</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow: hidden;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      z-index: -1;
+    }
+
+    .text-box {
+      position: fixed;
+      bottom: 50px;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .popup-image {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+<div class="background"></div>
+<div class="text-box" id="textBox"></div>
+<img src="./newspapers.png" class="popup-image" id="popupImage">
+
+<script>
+  const texts = [
+    "Welcome to Sorting Ash!",
+    "Inspired by Miguel Syjuco’s book, immerse yourself in the mysterious world of Illustrado, where literature and reality intertwine. ",
+    "Explore a recently deceased friend and mentor’s house filled with secrets and lost manuscripts. Piece together the fragments of his life and uncover the truth hidden within his works.",
+    "How to Play: \n- Move and click your cursor around the screen to discover interactive elements \n- Click on objects to investigate, gather information, and unlock hidden passages \n- Decipher literary puzzles, reconstruct lost texts, or uncover cryptic references to Salvador’s works",
+    "Click again to begin your literary investigation. The answers await—if you dare to seek them."
+  ];
+  let clickCount = 0;
+  let state = "intro";
+  const textBox = document.getElementById("textBox");
+  const popupImage = document.getElementById("popupImage");
+
+  window.onload = () => {
+    setTimeout(() => {
+      textBox.innerText = texts[0];
+      textBox.style.opacity = 1;
+    }, 800);
+  };
+
+  document.body.onclick = () => {
+    if (state === "intro") {
+      if (clickCount < texts.length - 1) {
+        clickCount++;
+        textBox.innerText = texts[clickCount];
+      } else {
+        textBox.style.opacity = 0;
+        state = "popup";
+        setTimeout(() => {
+          popupImage.style.opacity = 1;
+        }, 500);
+      }
+    } else if (state === "popup") {
+      popupImage.style.opacity = 0;
+      state = "redirect";
+      setTimeout(() => {
+        document.body.style.opacity = 0;
+        setTimeout(() => {
+          // 👉 Redirect to the second website (change this to your actual URL)
+          window.location.href = "file:///C:/Users/Rhiana/Documents/ilustrado/sorthing%20ash.html"; 
+        }, 1000);
+      }, 1000);
+    }
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SORTING ASH</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+    }
+
+    .container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-image: url('safe.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .lock-screen, .second-screen {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      z-index: 2;
+    }
+
+    input[type="password"] {
+      padding: 10px;
+      font-size: 18px;
+      margin: 10px 0;
+      width: 200px;
+      border: 2px solid #fff;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #error-message {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .second-container {
+      display: none;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-image: url('open-safe.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      z-index: 1;
+      animation: fadeIn 2s forwards;
+    }
+
+    .click-area {
+        position: absolute;
+            top: 76%;
+            left: 52%;
+            width: 450px;
+            height: 200px;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            font-size: 20px;
+            background-color: rgba(255, 0, 0, 0);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: none;
+            transition: opacity 1s ease-in-out;
+            z-index: 3;
+    }
+
+    .prompt-box {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: black;
+    z-index: 4;
+    }
+
+    .prompt-box p {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    }
+
+    .choice-button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    border: 1px solid #888;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    }
+
+    .choice-button:hover {
+    background-color: #ccc;
+    }
+
+    .popup-image {
+      display: none;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 8px;
+      z-index: 5;
+    }
+
+    .back-button {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      transition: background 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: rgba(0, 0, 0, 1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Initial Safe Background -->
+  <div class="container" id="firstBackground"></div>
+
+  <!-- Lock Screen UI -->
+  <div class="lock-screen" id="lockScreen">
+    <h1>Enter the 8-digit Code</h1>
+    <input type="password" id="password" maxlength="8" placeholder="Enter code" />
+    <button onclick="checkPassword()">Submit</button>
+    <p id="error-message"></p>
+  </div>
+
+  <!-- Second Background -->
+  <div class="second-container" id="secondBackground"></div>
+
+  <!-- Click Area -->
+  <div class="click-area" id="clickArea" onclick="showPrompt()">
+  </div>
+
+  <!-- Prompt Box -->
+  <div class="prompt-box" id="promptBox">
+    <p>Should I check the note or the laptop?</p>
+    <button class="choice-button" onclick="showNote()">Check Note</button>
+    <button class="choice-button" onclick="goToLaptop()">Check Laptop</button>
+  </div>
+
+  <!-- Popup Image for Note -->
+  <img src="Note-NoBG.png" id="noteImage" class="popup-image" alt="Note Image" />
+
+  <a href="file:///C:/Users/Rhiana/Documents/ilustrado/ilustrado_website.html" class="back-button">Back</a>
+
+  <script>
+    function checkPassword() {
+      const password = document.getElementById("password").value;
+      const errorMessage = document.getElementById("error-message");
+
+      if (password === "01261942") {
+        errorMessage.textContent = "";
+        transitionToSecondScene();
+      } else {
+        errorMessage.textContent = "Incorrect password. Please try again.";
+      }
+    }
+
+    function transitionToSecondScene() {
+      // Hide first screen
+      document.getElementById("lockScreen").style.display = "none";
+      document.getElementById("firstBackground").style.display = "none";
+
+      // Show second background with fade
+      const secondBg = document.getElementById("secondBackground");
+      secondBg.style.display = "block";
+      secondBg.style.animation = "fadeIn 2s forwards";
+
+      // After a short delay, show clickable area
+      setTimeout(() => {
+        document.getElementById("clickArea").style.display = "block";
+      }, 2000);
+    }
+
+    function showPrompt() {
+      document.getElementById("clickArea").style.display = "none";
+      document.getElementById("promptBox").style.display = "block";
+    }
+
+    function showNote() {
+        const noteImage = document.getElementById("noteImage");
+        const promptBox = document.getElementById("promptBox");
+
+        // Show the image and hide the prompt
+        noteImage.style.display = "block";
+        promptBox.style.display = "none";
+
+        // Delay adding the event listener slightly so it doesn't catch the same click
+        setTimeout(() => {
+            document.addEventListener("click", closeNoteOnce);
+        }, 100); // 100ms delay is enough
+    }
+
+    function closeNoteOnce(event) {
+    const noteImage = document.getElementById("noteImage");
+
+    // Hide note image
+    noteImage.style.display = "none";
+
+    // Show the prompt box again
+    document.getElementById("promptBox").style.display = "block";
+
+    // Remove this click listener after it runs once
+    document.removeEventListener("click", closeNoteOnce);
+    }
+
+    function goToLaptop() {
+      window.location.href = "laptop password2.html"; // Replace with actual link
+    }
+  </script>
+</body>
+</html>

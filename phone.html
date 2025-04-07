@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SORTING ASH</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('office2.jpg');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .phone-container {
+      position: relative;
+      width: 460px;
+      height: 750px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .phone {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .screen,
+    .text-box {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .app {
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      background-color: rgba(255, 255, 255, 0);
+      cursor: pointer;
+    }
+
+    .app1 { top: 19%; left: 35.5%; transform: translateY(-50%); }
+    .app2 { top: 19%; left: 21%; transform: translateY(-50%); }
+
+    .clickable-area {
+      position: absolute;
+      width: 275px;
+      height: 38px;
+      background-color: rgba(0, 0, 0, 0);
+      cursor: pointer;
+    }
+
+    .text-box {
+        top: 21%;
+        left: 18.5%;
+        width: 290px;
+        height: 480px;
+      overflow-y: scroll;
+      background-color: rgba(255, 255, 255, 0.95);
+      z-index: 10;
+    }
+
+    .text-box .content {
+      padding: 20px;
+      font-family: sans-serif;
+      font-size: 15px;
+    }
+
+    .text-box button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button.nav-btn {
+      border-radius: 50%;
+      color: white;
+      border: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    button.prev {
+      left: 70%; bottom: 11.5%;
+      width: 20px; height: 20px;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    button.next {
+      left: 75.3%; bottom: 11.5%;
+      width: 20px; height: 20px;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    button.back-home {
+      bottom: 8.2%;
+      left: 50%;
+      width: 33px;
+      height: 33px;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+    }
+
+    .back-button {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: white;
+        padding: 8px 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        text-decoration: none;
+        font-family: sans-serif;
+        z-index: 20;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container" id="phoneContainer">
+    <img src="./PHONE UI/1.png" alt="Phone" class="phone" id="initialPhone" onclick="goToHomeScreen()">
+
+    <div class="screen home-screen">
+      <img src="./PHONE UI/2.png" alt="Home Screen">
+      <div class="app app1" onclick="openApp1()"></div>
+      <div class="app app2" onclick="openApp2()"></div>
+    </div>
+
+    <div class="screen app1-screen">
+      <img src="./PHONE UI/6.png" alt="App 1 Main">
+      <div class="clickable-area" style="top: 20%; left: 20%;" onclick="openApp1Detail()"></div>
+      <div class="clickable-area" style="top: 73%; left: 20%;" onclick="openApp1Detail2()"></div>
+      <button class="nav-btn back-home" onclick="goBackToHome()"></button>
+    </div>
+
+    <div class="screen app1-detail">
+      <img src="./PHONE UI/7.png" alt="App 1 Detail">
+      <button class="nav-btn back-home" onclick="backToApp1()"></button>
+    </div>
+
+    <div class="screen app1-detail2">
+        <img src="./PHONE UI/8.png" alt="App 1 Detail">
+        <button class="nav-btn back-home" onclick="backToApp1()"></button>
+      </div>
+
+    <!-- App 2 Page 1 -->
+    <div class="screen app2-page1">
+      <img src="./PHONE UI/3.png" alt="App 2 - Page 1">
+      <button class="nav-btn back-home" onclick="goBackToHome()"></button>
+      <button class="nav-btn next" onclick="goToApp2Page2()"></button>
+      <!-- Clickable areas -->
+      <div class="clickable-area" style="top:21.5%; left:20%;" onclick="openText('1-1')"></div>
+      <div class="clickable-area" style="top:27%; left:20%;" onclick="openText('1-2')"></div>
+      <div class="clickable-area" style="top:33%; left:20%;" onclick="openText('1-3')"></div>
+      <div class="clickable-area" style="top:38.5%; left:20%;" onclick="openText('1-4')"></div>
+      <div class="clickable-area" style="top:44%; left:20%;" onclick="openText('1-5')"></div>
+      <div class="clickable-area" style="top:49.5%; left:20%;" onclick="openText('1-6')"></div>
+      <div class="clickable-area" style="top:55.5%; left:20%;" onclick="openText('1-7')"></div>
+    </div>
+
+    <!-- App 2 Page 2 -->
+    <div class="screen app2-page2">
+      <img src="./PHONE UI/4.png" alt="App 2 - Page 2">
+      <button class="nav-btn back-home" onclick="goBackToHome()"></button>
+      <button class="nav-btn prev" onclick="goToApp2Page1()"></button>
+      <button class="nav-btn next" onclick="goToApp2Page3()"></button>
+      <!-- 10 clickable areas -->
+      <div class="clickable-area" style="top:21.5%; left:20%;" onclick="openText('2-1')"></div>
+      <div class="clickable-area" style="top:27%; left:20%;" onclick="openText('2-2')"></div>
+      <div class="clickable-area" style="top:33%; left:20%;" onclick="openText('2-3')"></div>
+      <div class="clickable-area" style="top:38.5%; left:20%;" onclick="openText('2-4')"></div>
+      <div class="clickable-area" style="top:44%; left:20%;" onclick="openText('2-5')"></div>
+      <div class="clickable-area" style="top:49.5%; left:20%;" onclick="openText('2-6')"></div>
+      <div class="clickable-area" style="top:55.5%; left:20%;" onclick="openText('2-7')"></div>
+      <div class="clickable-area" style="top:61%; left:20%;" onclick="openText('2-8')"></div>
+      <div class="clickable-area" style="top:66.8%; left:20%;" onclick="openText('2-9')"></div>
+      <div class="clickable-area" style="top:72.5%; left:20%;" onclick="openText('2-10')"></div>
+      <div class="clickable-area" style="top:78%; left:20%;" onclick="openText('2-11')"></div>
+    </div>
+
+    <!-- App 2 Page 3 -->
+    <div class="screen app2-page3">
+      <img src="./PHONE UI/5.png" alt="App 2 - Page 3">
+      <button class="nav-btn back-home" onclick="goBackToHome()"></button>
+      <button class="nav-btn prev" onclick="goToApp2Page2()"></button>
+      <div class="clickable-area" style="top:21.5%; left:20%;" onclick="openText('3-1')"></div>
+    </div>
+
+    <!-- Text Box -->
+    <div class="text-box" id="textBox">
+      <div class="content" id="textBoxContent">
+        <p>Default text</p>
+        <button onclick="closeTextBox()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <a href="file:///C:/Users/Rhiana/Documents/ilustrado/sorthing%20ash.html" class="back-button">Back</a>
+
+  <script>
+    window.onload = () => {
+      document.getElementById('phoneContainer').style.opacity = 1;
+    };
+
+    function hideAllScreens() {
+      document.querySelectorAll('.screen, .text-box').forEach(el => el.style.display = 'none');
+    }
+
+    function goToHomeScreen() {
+      document.getElementById('initialPhone').style.display = 'none';
+      hideAllScreens();
+      document.querySelector('.home-screen').style.display = 'block';
+    }
+
+    function goBackToHome() {
+      hideAllScreens();
+      document.querySelector('.home-screen').style.display = 'block';
+    }
+
+    function openApp1() {
+      hideAllScreens();
+      document.querySelector('.app1-screen').style.display = 'block';
+    }
+
+    function openApp1Detail() {
+      hideAllScreens();
+      document.querySelector('.app1-detail').style.display = 'block';
+    }
+
+    function openApp1Detail2() {
+      hideAllScreens();
+      document.querySelector('.app1-detail2').style.display = 'block';
+    }
+
+    function backToApp1() {
+      hideAllScreens();
+      document.querySelector('.app1-screen').style.display = 'block';
+    }
+
+    function openApp2() {
+      hideAllScreens();
+      document.querySelector('.app2-page1').style.display = 'block';
+    }
+
+    function goToApp2Page1() {
+      hideAllScreens();
+      document.querySelector('.app2-page1').style.display = 'block';
+    }
+
+    function goToApp2Page2() {
+      hideAllScreens();
+      document.querySelector('.app2-page2').style.display = 'block';
+    }
+
+    function goToApp2Page3() {
+      hideAllScreens();
+      document.querySelector('.app2-page3').style.display = 'block';
+    }
+
+    function openText(id) {
+      const textBox = document.getElementById('textBox');
+      const content = document.getElementById('textBoxContent');
+      let text = '';
+
+      if (id === '1-1') text = 'Transcript: \n \nFlorentina: The appearance of virtue is more important than virtue itself… Oh yes, I have a letter for you… It’s here somewhere. I hope… Did you hear the latest gossip? Lakandula sent out the maids but refused to release the Changco child. The couple and their son are the only hostages left. I can’t stop following the story. It’s amazing. In an instant, Wigberto Lakandula could be national hero or national villain… Voilà! But it’s the heart of darkness in here. That’s better… There. That’s a nice letter. Can you tell me what it says? \n \nMiguel: It says you want to find Dulcinea. Because you think she has something for you. Because you’re searching. Aren’t we all? Take, for example, that poor fellow, Mr. Lakandula, searching for justice rarely given. One of the maids he released had a message pinned to her. A manifesto calling for the masses to revolt. Apparently, after that radio report, there were scuffles between police and the crowd. A water cannon was brought in. The pressure was so weak the protesters danced in it. One produced a bar of soap from heavens knows where and applied it to his underarms. Very droll. That’s why I still bother with newspapers. Miss Florentina, I was… \n \nFlorentina: Of course one bothers because our days are numbered. I’d like to find out how the story ends. It will end in tears, I wager, it’s always the same. One day, they’ll smell something odd from this apartment, and all the world’s problems will be someone else’s. The kids on the list for vacancies in this building will be tickled. You young are held in awe by high ceilings. \n \nMiguel: We are, I don’t know if I should tell you how to find her. She’s now free, you know? \n \nFlorentina: I’m sorry?';
+      else if (id === '1-2') text = 'Transcript: \n \nMiguel: Dulcinea. \n \nFlorentina: I see. You don’t think that in the middle of the night, or when she reads her father’s name in the papers… maybe she wonders? She’s out in the world, making it her own. What more can a person ask for? Freedom is the only thing we must demand in life, for all other good things stem from it. I can say this because I well know. But that’s fine. The world now comes to me. It tends to when you have something people need… I think one of my suitors has been stealing my books. Don’t ask me how. Books just go missing. But listen to me go on. \n \nMiguel: What else did the letter— \n \nFlorentina: Of course, one must go on! Never rest, lest it catch up. Because I could not stop for death… Though I was never one of those made frail by that grim obsession. Lena is. Ever since. She simply stopped trying. Because the afterlife is said to be so much better. She could have done anything with her life. Instead she remained her daddy’s little girl. Constantly pushing his wheelchair wherever he pointed. How mortified Lena was whenever he’d just stand up, spry as a teenager. She’d sort of shrink behind him, following with the empty chair. But I do prefer her gravity to the graceless ones, those who refer to themselves as ‘x- many years young.’ Crispin’s mother was like that. Maybe it was the weight of her cancer. We all cope differently. Suddenly these past months I catch myself. I’m ninety-five years young. This must be purgatory. Though you don’t have to worry yet. Even though we cannot make our sun stand still, yet we will make him run. \n \nMiguel: Marvell. ‘To His Coy Mistress.’ \n \nFlorentina: Very good! I thought kids these days resorted to drink spiking, not poetry. \n \nMiguel: A little of both, I think.';
+      else if (id === '1-3') text = 'Transcript: \n \nFlorentina: I like you, ‘Come live with me and be my love.’ \n \nMiguel: ‘And we will all the pleasures prove.’ \n \nFlorentina: Oh, you do remind me of Crispin. He was quite the passionate shepherd. We used to trade lines of verse in the darkroom. Oh my, that does sound dirty, doesn’t it? He wanted to be a photographer, but he became a writer, thanks to me. \n \nMiguel: Do you think he was killed for his writing? \n \nFlorentina: Why do young people enjoy unpleasantries? \n \nMiguel: I was just wondering… \n \nFlorentina: Do you think it will make people take you more seriously? It doesn’t… I’m sorry, I don’t mean to be unpleasant. Tell me, what’s it like outside today? I observe the sky through the window, but that’s very different. I miss the feel of the first drops of rain. When I’m drawing my last breaths, I want to be wheeled out under the rain and be left there. You know what else I miss dearly? Driving. I used to drive myself every where. I had the sweetest little BMW. A 1974 3.0S. Same model as Jacqueline Kennedy Onassis. See, I even know my cars! I sold it to a collector. It became such that I only used it to go to mass. One returns to the Godfulness of youth when the end is in sight. But as soon as I rediscovered the Lord, my legs gave out. As did the building’s elevator. The devil, when he makes himself known, always does it subtly. Now I spend my days looking for him in the quiet places. No, that’s not true.';
+      else if (id === '1-4') text = 'Transcript: \n \nMiguel: Miss Florentina, did Crispin visit you when he was here last? \n \nFlorentina: As long as I engage myself in work, then I’m close to God. Simone Weil, have you read her? She said deep attention is like prayer. I think so is hope. I just had her book somewhere. When Weil was six she refused to eat sugar in solidarity with the soldiers on the front. Children sometimes know best and we chide them for being precocious. Then we grow aged and become again like children, and they call us wise. I did see Crispin the last time he was here. Before his speech at the CCP , that silly little provocateur. He came bearing takeout food from the Aristocrat. When I studied him sitting where you are now, I knew what was eating him. Despite my better judgment, I told him: Go find your Dulcinea. He pretended he was angry, but I knew he was only afraid. \n \nMiguel: Of what? \n \nFlorentina: Afraid of ruining things. Or change. Altering your life is hard. I’m the last person to criticize. But Crispy wasn’t free. When you’re unhappy with your life, you become more selfish with it. \n \nMiguel: Did he want to find her? \n \nFlorentina: Of course. Though it was odd. We hardly ever spoke about her. Yet that last time he was here, he asked if I was in touch with her. I told him: Dear, go to her before it’s too late. But it was always already too late.';
+      else if (id === '1-5') text = "Transcript: \n \nMiguel: Then will you help me find her? For him? \n \nFlorentina: Simple pleasures, you’ll one day conclude, are the most enduring. Listen, child. I adore your persistence. But there are things that are not mine to tell. \n \nMiguel: I think that I understand what Crispin was going through. \n \nFlorentina: Let’s just enjoy our chat and the wine, shall we? You did bring a bouteille? \n \nMiguel: I’m sorry? No, I didn’t forget. It’s only eleven in the morning and I thought— \n \nFlorentina: Oh, you haven’t changed a bit. Always forgetful. \n \nMiguel: Me? I don’t understa— \n \nFlorentina: What a shame! My two suitors bring me news and nourishment, but my third forgets the wine. You're jealous. Admit it, Crispinito. What do you want from me anyway? \n \nMiguel: Do you want me to go and get a bottle? \n \nFlorentina: No! Please don’t. Won’t you spend the day with me? \n \nMiguel: I’m not sure I— \n \nFlorentina: Crispin . . . I mean, I’ll tell you all about Crispin. Yes, I’ll tell you about Crispin. I taught him the important things, you know? For example, the instant before something comes into focus is more exciting than any sharp certainty. You should write that in your notebook. Photography, child, is about the passing of time. Capturing is the goal of literature. Timelessness is the task of music and painting. But a good photograph holds time just as a vase holds water. The water will evaporate and the vase becomes a memorial to it. What separates a snapshot from a masterpiece is that the latter is a metaphor for patience… \n \nMiguel: Yes, but— \n \nFlorentina: What is your hurry, child?";
+      else if (id === '1-6') text = "Transcript: \n \nMiguel: It’s really important that I find Dulcinea. \n \nFlorentina: Can’t you just have lunch with me? You'll stay, won’t you? Let me see, what else can I entice you with? Crispin died, you know, not because the art left him, but because he gave up on love. Sounds like a romance novel, doesn’t it? Angry men have little to live for when their rage becomes ineffective. But how they thrive otherwise. \n \nMiguel: So do you think Dulcinea had anything to do with his suicide? \n \nFlorentina: You were dead long before you left this world. \n \nMiguel: Miss Florentina, I’m not— \n \nFlorentina: I mean he . . . Oh, I don’t know what I mean. What were we saying? Tell me, child. Why do you need to find her? Do you even know why? \n \nMiguel: I do. Yes. I want to ask her what her father should have done. \n \nFlorentina: Why? \n \nMiguel: Because I think it’s important to know. \n \nFlorentina: It has nothing to do with that infernal book of his? \n \nMiguel: I’m only doing this for Crispin. \n \nFlorentina: Okay, child, I’ll tell you where. \n \nMiguel: You will? \n \nFlorentina: I believe in you. She lives near the Lingayen Gulf. On one of the Hundred Islands. One of the most beautiful places. Have you ever been? \n \nMiguel: I don’t remember it. My grandparents brought me when I was in high school. That’s where my parents died and there’s a memorial. A big steel sculpture in the forest. An angel with broken wings. \n \nFlorentina: All the more reason to go. \n \nMiguel: Thank you.";
+      else if (id === '1-7') text = "Transcript: \n \nFlorentina: There is a figure in the Spoliarium that I think you should see. A woman in the background, just standing there. Wearing a red cloak half wrapped around her face. The way she looks, it’s as if Juan Luna knew Dulcinea when he painted her. \n \nMiguel: Thank you. \n \nFlorentina:  Now where are my pencils? \n \nMiguel: I have a pen. \n \nFlorentina: I remember this… Now I have a question for you, Miguel, why do you think Crispin didn’t seek out his child? \n \nMiguel: He was afraid.  \n \nFlorentina: I think it was more than that. Forgive this analogy, but I’m an old shutterbug. Sometimes one waits too long for the perfect moment before snapping the picture. You never realize that all you needed was to change perspective. That was it. Crispy mistook moving away for moving forward. He lived abroad, thinking it would let him write more honestly. He told me once that he wanted to make himself the best man he could be so that Dulcinea would want to find him. Look what happened. \n \nMiguel: What about the mother? \n \nFlorentina: What matters is the child. She has her whole life ahead of her. \n \nMiguel:  What do you know about The Bridges Ablaze? \n \nFlorentina: Forget that. Go find your Dulcinea. \n \nMiguel: What about the book? \n \nFlorentina: You said it had nothing to do with this. \n \nMiguel: I’m sorry. I just don’t know who else to see. I’m supposed to see the critic Avellaneda. But I’m sure that will all be… you know. You’re the last person who can— \n \nFlorentina: Crispin, stop it, child. You never change. Forget our lunch. Just go. \n \nMiguel: Just one more question… \n \nFlorentina: God so commanded and left that command sole daughter of his voice… Your turn. \n \nMiguel: I don’t understand. \n \nFlorentina: Hello? Crispinito? Paradise Lost? \n \nMiguel: Yes, but— \n \nFlorentina: John Milton. Oh, child, you’re inutile. What is it? ‘Sole daughter of his voice; the rest, we live law to ourselves; our reason is our law.’";
+
+      else if (id === '2-1') text = 'Transcript: \n \nLena: I know nothing about his vest \n \nMiguel: No, I meant, how do you think he died? \n \nLena: Do I think he’d mind what? \n \nMiguel: I’m sorry, um—let me get my list—er, did you two keep up correspondence when he was in New York? \n \nLena: No. I never did get to visit him in New York. I wanted to, but I never had the chance. \n \nMiguel: Did you write him letters there? \n \nLena: I’m sorry. Would you mind speaking up? \n \nMiguel: I said, did you write him letters often? \n \nLena: Yes. Every week. We’d done it since the fifties, when I was sent to receive my schooling at King George V, in Hong Kong. About ten years ago, we stopped writing. It was like quitting smoking, not receiving a weekly dispatch from him. But I was far too peeved by him. \n \nMiguel: For what? \n \nLena: I’m sorry? \n \nMiguel: I said, for what? \n \nLena: His memoirs. \n \nMiguel: What do you mean? \n \nLena: Indeed! They were mean! Mercenary, in fact. He may have waited for Mama to die, but what of the rest of us? My brother’s response was: ‘But it’s art! It’s the truth!’ As if that made it acceptable. You think these people in this country understand art? Half can’t write their names. Still we let them vote. The other half, they can read about us in his book. No good can come from that. I used to blame that book for our brother Narcisito’s mental troubles. I’d even given Crispy my childhood diaries beforehand, hoping they’d help him write honestly. ';
+      else if (id === '2-2') text = 'Transcript: \n \nMiguel: What particularly bothered you? \n \nLena: Oh, you know. \n \nMiguel: Were you upset about what he said about Narcisito and your father? \n \nLena: Things he said about the holy Church. \n \nMiguel: What did that have to do with Narcisito? \n \nLena: Crispin also wrote ghastly things about the family connection with that fascist, Respeto Reyes. Or insinuations about my father bodily abusing us, when really it was just the zeitgeist. Same with those stories about the women my father turned to when Mama was sick. Papa was a man. Where else was he to find solace? And Crispy made public personal matters about my father’s politics. \n \nMiguel: Were the things he said untrue, or… \n \nLena: The things he said were untrue. My father was… Papa was a man who tried to help as many people as he could. But by Crispy’s recollection, my father didn’t have scruples. What a hypocrite. My father did have scruples, many, but he didn’t let politics get in the way. You can’t govern well if you have scruples. Everyone knows that. \n \nMiguel: What about your mother? \n \nLena: Narcisito tried his level best to live up to Papa’s expectations. \n \nMiguel: No, I said, what about your mother? \n \nLena: Oh. I’m certain Mama turned in her grave until she was dizzy. Angels keep her. Crispy painted her as pitiful.';
+      else if (id === '2-3') text = 'Transcript: \n \nMiguel: So they were lies? \n \nLena: Of course there were no other guys! My mother was the definition of fidelity. \n \nMiguel: No, I said, was what Crispin said lies? \n \nLena: I see. You have such a soft voice. Are you a seminarian? Well, I guess they weren’t lies. They weren’t how we would have put them. Were my mother alive, Crispin would have been more respectful. \n \nMiguel: Do you think, in a way, Crispin meant the book to be a tribute? A chronicle of the truths that the family would otherwise lose? \n \nLena: That’s a bit rich. Don’t give my brother too much credit. He was in a purgatory of insignificance and wanted to resurrect himself. How does he do it? Shirks his duties, as usual, and steps on those who love him. For a long time I blamed that silly girl, Sadie Baxter. The graduate student from Topeka, Kansas. She was less than half his age. Everyone was in absolute horror at how he would corrupt her. Because, oh my, she was so curious. Oh my, so blond. Oh my, so pristine. But she corrupted him! It’s not age that corrupts, it’s youth. Plus, I think she was Jewish. It worried Papa, the idea that she was after our money. Her family had changed their name from Bachman or Bachstein or something like that. Why change your name if you have nothing to hide? Well, Crispy was mad for her. I hadn’t seen him so smitten since that love affair with Mutya Dimatahimik. \n \nMiguel: When was that? I’d never read about that.';
+      else if (id === '2-4') text = 'Transcript: \n \nLena: In the late sixties. The long love affair that would live in infamy. It affected him profoundly. It eventually broke up the Cinco Bravos. That’s why he didn’t write about it. He was culpable. Also, Sadie was the reason Crispy didn’t do anything with his beloved Dulcinea, and why that relationship would be his most tragic failure… \n \nMiguel: What do you mean? That name is on my list of people to… \n \nLena: That tiny Sadie Baxter stirred inside my brother adolescent delusions, made him selfish and reckless. Perhaps because she was constantly photographing him, with that camera she always carried. Suddenly, each morning he’s taking ginseng and ma huang and rhino horn. Ridiculous! I laugh, but it comes from a place of love. My brother was silly. I know now that I despised Sadie so that I could preserve my love for Crispin. But it was my hate for her that made him resent me. What can you do? Don’t we all need to blame somebody?';
+      else if (id === '2-5') text = 'Transcript: \n \nMiguel: Can you tell me about Dulcinea— \n \nLena: Is that my brother’s fountain pen? \n \nMiguel: Um. Yes. You said I could take— \n \nLena: Keep it. That’s fine. \n \nMiguel: It means a lot to me. I’m using it to write his biography. I thought it was actually fitting… \n \nLena: It’s fine. Really. It was just odd to see it in someone else’s hands. It was our father’s before Crispin had it. I’m sorry, what were we discussing prior? Ah, yes. After his memoir proved a failure, it was Sadie Baxter who left him. \n \nMiguel: But I heard that he— \n \nLena: That’s how it happened. \n \nMiguel: But your brother even dedicated Autoplagiarist to her. \n \nLena: I know. But in fairness to that hotsipatootsie, I can quite imagine how difficult it was being around my brother during that time. He never came to terms with failing. No, it wasn’t Sadie’s fault. She was young. She had hopes. Plus she was different. Not so much Jewish, but Western. She couldn’t be expected to understand how sacred family is to us. They cut their offspring loose right when they turn eighteen. The poor girl later died while bicycling in Monaco. I’m convinced her hard life was because she was never baptized.';
+      else if (id === '2-6') text = 'Transcript: \n \nMiguel: I’m sorry, but I have to ask again. Pardon my frankness. But do you think Crispin killed himself? \n \nLena: My short answer: No. Not directly. First, because it’s a mortal sin, and Crispin, I have to believe, saw the light before the end. Second, he didn’t have it in him. I mean, okay, fine, he wasn’t quite sane. But suicidal? \n \nMiguel: What do you mean, ‘not quite sane’? \n \nLena: When my mother was on her deathbed, that’s when it all started. The corruption in Crispin’s heart. I told him, it’s a test, be like Abraham. Remember how the Lord tested Abraham by asking him to sacrifice his child Isaac? But after Mama died, Crispin was inconsolable. He’d flown from New York to see her and arrived the day of the night she left us for the Lord. He rushed to the hospital, but Papa wouldn’t allow him into her room to say goodbye. It was for my mother’s good. My father, you know, he loved her very much. He still had hope that, with prayers, her cancer could be defeated. He went all the way to the Vatican and donated a fortune. Papa got on his knees and begged the Pope to ask the Lord for His intercession. But Mama was in such pain. Such pain! Crispin had for weeks been saying maybe it was time to let her go. Easy to say while drinking martinis in Manhattan. So when Crispy arrived, Papa didn’t allow him to see our mother. He told my brother it was Mama who refused to see him. I think maybe that was unfair. After, Crispin went back to New York and wrote his memoir. He refused to stay for the wake and didn’t come to the funeral. When Autoplagiarist came out, my father felt betrayed. It was he who gave Crispin the money to publish it. Papa was always giving Crispin money, as an olive branch. So my father was very angry. As usual, he took it out on poor Narcisito. He treated him worse than the neighbor’s dog. Narcisito gave Papa his whole life. But because he did, he could never get Papa’s approval. I saw Narcisito in his room at the Fresh Starts Rehabilitation Retreat Home, and after I left, he hanged himself. I often wonder… had I stayed… or not visited that day… \n \nLena: Well, just your typical rich family, I guess.';
+      else if (id === '2-7') text = 'Transcript: \n \nMiguel: What happened to Crispin? \n \nLena: One thing you’ll learn when you get older is that when you hate someone so much, a part of you wants desperately to forgive them. But you can’t decide if it’s because you really want to, or if you just want to stop hating. I still don’t know if forgiveness is generous or selfish. Maybe both. Crispin was such a talent as a young man. So mischievous. But he grew so angry. There’s expedience in anger. Simplicity, too.';
+      else if (id === '2-8') text = 'Transcript: \n \nMiguel: Did you ever get to make amends with Crispin before he died? \n \nLena: Before he died, that last time he was in Manila—you know, in February, for his infamous fiasco at the Cultural Center—well, Crispy visited me before that. Just appeared. The maids said I had a visitor and I came down and there he was, suitcase beside him, fanning himself with his panama hat. I was convinced I was seeing a ghost. I even did the sign of the cross. When he looked up and smiled that irritating smile of his, I told him: ‘What makes you think you’re welcome here?’ But even I was surprised that I didn’t mean that.';
+      else if (id === '2-9') text = 'Transcript: \n \nMiguel: He came here? Did he mention writing The Bridges Ablaze? \n \nLena: We didn’t talk about his work. \n \nMiguel: For how long was he here? \n \nLena: I had nothing at all to fear. He was my baby brother. \n \nMiguel: No, I said, how long was he here? \n \nLena: I’m sorry? \n \nMiguel: How long was he queer? \n \nLena: I see. Less than a week. \n \nMiguel: That long? \n \nLena: Weren’t you his friend? \n \nMiguel: I was. I’m sorry, I am. But I was out of town, too. My girlfriend and I were in Costa Rica, helping build wells. My girlfriend at the time. \n \nLena: Why not the Philippines? Isn’t Costa Rica relatively well off? \n \nMiguel: Um, we didn’t know that till we got there. What I want to ask is, did Crispin do any research? Like, take notes? Or… \n \nLena: No. Nothing. Really, it was divine. I admit, I didn’t dare ask about his writing. It was just wonderful to see him. I didn’t want to ruin it. He’d aged so. During his stay, he strolled barefoot around the garden. Ate very well. We took walks to the beach where we used to swim as children. Talking only about wonderful things. He read to me every night. That was something we did as kids, read to each other, especially during the war. He always did the best voices. He recited ‘The Raven’ with all sorts of trilled r’s and all. I should have known it was too superlative not to be the last time… I’m sorry. It’s just… Growing up, it was just us three children. Papa was always away. Mama, well, she wasn’t really present. Despite what you read in Crispin’s memoir. Mama didn’t have a good relationship with her affections. Because of my father, Mama retreated into her painting, her botany. I rarely saw her laugh. Except with her best friend, Miss Florentina. Whom I assume you are interviewing. No? You must. Amazing woman. Still she lives alone. The archangels are protecting her. Other than them, she refuses to have household help. She was a legendary beauty. Not at all like me. \n \nMiguel: No, um, I’m sure that wasn’t true.';
+      else if (id === '2-10') text = 'Transcript: \n \nLena: Miss Florentina’s name was whispered in the Spanish royal court. Ask her about her many suitors. It will make her happy. They were mad for her. She could have chosen from dozens. But she was never to be tied down. Even in conversation. Beware: you think you’re fooling her when all along she’s fooling you. \n \nMiguel: What was the family connection? \n \nLena: She was the dearest of all our titas, though we weren’t related. She was first a friend of our tito, Herculeo. You know, my father didn’t even attend his funeral? His own brother. Tito Herculeo was, you know. A confirmed bachelor. At that time, it wasn’t something you could be. Tito Herculeo always had the most beautiful clothes, and made gazpacho that was famous from here to Shanghai. Sorry, what was I discussing?';
+      else if (id === '2-11') text = 'Transcript: \n \nMiguel: You were talking about Crispin’s last visit. Was there anything strange?\n \nLena: Come to think of it, there was something surprising. I’ve had a long involvement with this group of children. My old classmate from the Assumption, Shirley Nuñes, a nun, a living saint, she educates the children of two towns in Antique province. I told Crispin, you know, your trip isn’t so well timed, because I’m going up to visit. I go each February, before the season becomes hot. I’ve always loved children. So anyway, Crispy, he tells me, I’ll go with you. I said, Ha! You won’t last the day. But he came. We spent two days and one night. We looked at the cottage-industry projects I fund. Weaving, that’s what they do. Remind me to give you one of the loincloths they make. They’re wonderful as table runners. Anyway, all the children were so happy to see us. You see, many of their parents are gone. Then the kids get to a certain age and the light dulls in their eyes. Sorry? Oh, their parents go to the fish farms in the estuaries by the coast. Milkfish. Or many become domestic helpers or contract workers in Manila. Maybe Brunei or Saudi. It’s hard. My friend Shirley is aging, and these people keep having children. I remember when Shirley wanted to introduce condoms to the people there and I had to stop her. Imagine?! I told her: ‘Don’t you dare! I’ll cease my funding! I’ll tell you to the diocese. ’ I don’t know why those men and women just can’t control themselves. I did. I think it’s like animals. Bless them all, but still. Shirley says many children ensure a family of helping hands. I don’t know about that. Don’t get me wrong, you should see these children. Miracles, each one. This is the strange part.”';
+
+      else if (id === '3-1') text = 'Transcript: \n \nLena: On the day we leave for home, Shirley and two kids are coming with us in the car to drop us at the town where we catch the ferry. As we enter the car, Crispy notices the other children are crying. A few are being unpleasant to the two dears accompanying us. What’s wrong? he asks Shirley. She explains: Every year, the two with the best grades make a trip to see the sea. Only two, because she can’t afford to bring them all. Most of the children had never seen the sea, even if it’s only three hours away. Bear in mind, they’re very remote. They don’t even have television, so how will they know what an ocean looks like? Shirley explains: ‘You should hear them trying to describe it to their friends. They simply cannot. I try to help, then I realize how impossible it is.’ Well, Crispy, he’s upset. Angry. The way he gets. He pulls out his wallet and sends Shirley with our car to contract jeepneys from the nearest town. Crispy just sat and waited, like a mule chewing grass. Nearly two hours in silence. I think he felt ashamed. He’d famously hated children. He thought I’d criticize him. The school motto we had at KGV is Honestas ante Honores. Honesty before glory. Not the sort of rot the Salvador men believed. I dare say, on that last trip, Crispy came round. Just like Saint Augustine… And that is how we took all the children to see the sea. Thirty-seven of them. I’ll never forget it. Many children, mostly the older ones, were afraid of the water. But a few brave ones jumped right in. The younger ones, would you believe? A few who thought they were courageous came running back each time a wave came. Eventually, they were all in the water, splashing and tumbling. I’ve never heard so much laughter. And Crispy just stood there, among all the excitement, hands in pockets, trousers rolled up and the water coming and goingaround his knees. He’s always had that smug way of whistling his own tune, all my life, like he’s ignoring you. Or as if he knows better than you. Narcisito and I hated that. But that afternoon, when Crispy whistled like that, it was more than okay. Afterward I made a mistake. On the ferry, I guess I was feeling sentimental leaning on the railing with him, watching our island on the horizon. I asked if he ever thought about what he’d leave behind. Those children had affected me. Crispin grew irate and stormed off. He didn’t talk on the car ride home. Then he went straight to bed. The next morning, he was gone.';
+
+      content.querySelector('p').innerText = text;
+      textBox.style.display = 'block';
+    }
+
+    function closeTextBox() {
+      document.getElementById('textBox').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
