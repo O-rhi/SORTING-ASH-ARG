@@ -54,6 +54,55 @@
       transition: opacity 0.5s ease-in-out;
     }
 
+    .hint-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #8a6851;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: transparent;
+            z-index: 100;
+            text-align: center;
+        }
+        .modal-content {
+            background-color: #8a6851;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .modal img {
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+        .modal .error {
+            color: darkred;
+            display: none;
+        }
+
     .back-button {
       position: fixed;
       bottom: 20px;
@@ -111,6 +160,22 @@
 <!-- Special clickable image (visible only when no main trigger is clicked) -->
 <img src="./PHONE UI/1.png" alt="Secret Hint" id="specialImage" class="special-image" onclick="window.location.href='phone.html'" />
 
+<button class="hint-button" onclick="openModal()">Hint</button>
+
+<div class="modal" id="hintModal">
+    <div class="modal-content" id="passwordContainer">
+        <p>Want a hint?</p>
+        <input type="password" id="passwordInput" placeholder="Password">
+        <button onclick="checkPassword()">Submit</button>
+        <p class="error" id="errorMessage">Incorrect password. Try again.</p>
+    </div>
+    <div id="hintContainer" style="display: none;">
+        <img src="CheatSheet.png" alt="Hint Image" id="hintImage">
+        <button class="back-button" onclick="goBack()">Back</button>
+    </div>
+</div>
+
+
 <script>
   const background = document.body;
   const triggers = document.querySelectorAll(".trigger");
@@ -161,6 +226,54 @@
       <div class="sub-trigger" style=" width: 450px;height: 250px;top:58%;left:17%;transform: rotate(5deg);" onclick="window.location.href='locked wooden box.html'"></div>
     `);
   };
+
+  const correctPassword = "Ms Cee";
+
+  function openModal() {
+  const modal = document.getElementById('hintModal');
+  const isVisible = modal.style.display === 'block';
+
+  if (isVisible) {
+    modal.style.display = 'none';
+  } else {
+    // Reset modal to initial state before showing
+    document.getElementById('passwordContainer').style.display = 'block';
+    document.getElementById('hintContainer').style.display = 'none';
+    document.getElementById('hintImage').style.display = 'none';
+    document.getElementById('errorMessage').style.display = 'none';
+    modal.style.display = 'block';
+  }
+}
+
+function checkPassword() {
+    const userInput = document.getElementById('passwordInput').value;
+    const passwordContainer = document.getElementById('passwordContainer');
+    const errorMessage = document.getElementById('errorMessage');
+    const hintContainer = document.getElementById('hintContainer');
+    const hintImage = document.getElementById('hintImage');
+
+    if (userInput === correctPassword) {
+        passwordContainer.style.display = 'none';
+        hintContainer.style.display = 'block';
+        hintImage.style.display = 'block';
+        errorMessage.style.display = 'none';
+    } else {
+        errorMessage.style.display = 'block';
+        hintImage.style.display = 'none';
+    }
+}
+
+function goBack() {
+    const passwordContainer = document.getElementById('passwordContainer');
+    const hintContainer = document.getElementById('hintContainer');
+    const hintImage = document.getElementById('hintImage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    passwordContainer.style.display = 'block';
+    hintContainer.style.display = 'none';
+    hintImage.style.display = 'none';
+    errorMessage.style.display = 'none';
+}
 
   function goBack() {
     background.style.background = "url('./office2.jpg') no-repeat center center/cover";
